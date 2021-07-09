@@ -19,14 +19,15 @@ The GoodReads_Parser.py file uses BeautifulSoup to scrape relevant data from an 
 - Date Read
 - Date Added
 
-The EDA.ipynb file uses some data analysis techniques to determine patterns, report observations, and visualize trends in one's reading history. 
 
+The GoodReads_Analysis.ipynb file uses some data analysis techniques to determine patterns, report observations, and visualize trends in one's reading history. The file will begin by cleaning the CSV file produced by the parser file in order to eliminate duplicate rows and convert data types. Then, visualizations will be produced that explore Pages Read, Authors, Ratings, and Dates Associated with the books in your history. 
 
-scrapes and analyzes one's GoodReads reading history. 
-
-Required Downloads and Libraries
+### Required Downloads and Libraries
 Languages
 - Python
+
+Virtual Environment
+- Jupyter Lab or Notebook
 
 Libraries/Modules
 - BeautifulSoup
@@ -35,3 +36,12 @@ Libraries/Modules
 - Seaborn
 - matplotlib
 - datetime
+- Itertools
+
+### Directions
+1. Fork, Clone, or Download the files
+ - GoodReads_Parser.py
+ - GoodReads_Analysis.ipnyb
+2. Open GoodReads_Parser.py and replace the GOODREADS_URL with the link from your account (You can use the link from the My Books section of the site)
+3. Run the parser. This produces a CSV file with your history.
+4. Open GoodReads_Analysis.ipynb and run all cells.

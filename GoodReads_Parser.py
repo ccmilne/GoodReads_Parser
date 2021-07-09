@@ -4,7 +4,7 @@ import urllib.request
 from bs4.element import Tag
 import requests, json, csv
 
-GOODREADS_URL = 'https://www.goodreads.com/review/list/62504919-cameron-milne?'
+GOODREADS_URL = 'https://www.goodreads.com/review/list/62504919-cameron-milne?' #Replace with your link
 
 ### GoodReads Data
 def scrape_goodreads_page(url, page_number):
