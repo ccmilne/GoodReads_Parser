@@ -145,39 +145,35 @@ def scrape_goodreads_page(url, page_number):
     return page_list
 
 def combine_page_lists(library_list):
-    '''Parses Wikipedia dictionary and cleans data
+    '''Combine Collections of Lists by Page
 
-    Iterates through the dictionary produced by the build_wikipedia_dictionary()
-    and removes capitalization, dollar signs, and commas.
+    Takes a list of lists and combines those lists into one using
+    the itertools library.
 
     Parameters
     ----------
-    wiki_dict: a dictionary produced by build_wikipedia_dictionary()
+    library_list: a list of lists
 
     returns
     -------
-    new_dict: cleaned dictionary
+    list: flattened list
     '''
     flatten = itertools.chain.from_iterable
 
     return list(flatten(library_list))
 
 def convert_list_to_csv(one_big_list):
-    '''Converts the Wikipedia Dictionary into a CSV file
+    '''Converts the flattened list a CSV file
 
-    The CSV file used in build_wikipedia_dictionary() converted the raw
-    data into a dictionary in order for data cleaning. Now, it's being converted
-    back to a CSV file in order for the data to be uploaded to the database.
-    The function iterates through the dictionary keys and appends each key, list of values
-    to a row in the csv file.
+    Takes a list of values and writes them to a CSV file
 
     Parameters
     ----------
-    wiki_dict: a specific wikipedia dictionary produced from clean_wikipedia_dictionary()
+    one_big_list: a specific list produced from combine_page_lists()
 
     returns:
     --------
-    CSV file: 'wikipedia.csv'
+    CSV file: 'ReadingHistory.csv'
     '''
     fields = [
         'Title',
