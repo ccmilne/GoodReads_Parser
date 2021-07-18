@@ -26,8 +26,6 @@ def scrape_goodreads_page(url, page_number):
     PAGE_URL = url + page_number_string
     #print(PAGE_URL)
 
-    # GOODREADS_URL = 'https://www.goodreads.com/review/list/62504919-cameron-milne?view=table'
-
     page = requests.get(PAGE_URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     #print(soup.title.string)
