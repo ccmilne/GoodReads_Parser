@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import itertools
 import urllib.request
-from bs4.element import Tag
 import requests, json, csv
 
 GOODREADS_URL = 'https://www.goodreads.com/review/list/62504919-cameron-milne?' #Replace with your link
@@ -24,13 +23,9 @@ def scrape_goodreads_page(url, page_number):
 
     page_number_string = 'page=' + str(page_number)
     PAGE_URL = url + page_number_string
-    #print(PAGE_URL)
 
     page = requests.get(PAGE_URL)
     soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup.title.string)
-
-    #Trying regex
     tables = soup.find_all('table')
     #print(len(soup.find_all('table'))) #There are 2 tables; the books are in the second
     book_table = tables[1]
@@ -40,12 +35,10 @@ def scrape_goodreads_page(url, page_number):
     column_headers = book_table.find_all('th')
     for column in column_headers:
         headers.append(column['alt'])
-    #print(headers)
 
     #Rows
     page_list = []
     table_rows = book_table.find_all('tr')
-    #print(table_rows)
     for row in table_rows[1:]:
 
         #Title: Needs edits
@@ -62,64 +55,28 @@ def scrape_goodreads_page(url, page_number):
             title = row.find(class_='field title').find('div').find('a').text.strip()
 
 
-        #Author: Working!
+        #Column Extraction
         author = row.find(class_='field author').find('div').find('a').text.strip()
-        #print(author)
-
-        #field isbn: Working!
         isbn = row.find(class_='field isbn').find('div').text.strip()
-        #print(isbn)
-
-        #field isbn13: Working!
         isbn13 = row.find(class_='field isbn13').find('div').text.strip()
-        #print(isbn13)
-
-        #Number of Pages: Working!
         num_pages_string = row.find(class_='field num_pages').find('div').text.strip()
         num_pages = ''.join(i for i in num_pages_string if i.isdigit())
-        #print(num_pages_stripped)
-
-        #Average Rating: Working!
         avg_rating = row.find(class_='field avg_rating').find('div').text.strip()
-        #print(avg_rating)
-
-        #Number of Ratings: Working!
         num_ratings = row.find(class_='field num_ratings').find('div').text.strip()
         num_ratings_converted = int(num_ratings.replace(',', ''))
-        #print(num_ratings)
-
-        #Publish Date: Working!
         date_pub = row.find(class_='field date_pub').find('div').text.strip()
-        #print(date_pub)
-
-        #Publish Date Edition: Working!
         date_pub_edition = row.find(class_='field date_pub_edition').find('div').text.strip()
-        #print(date_pub_edition)
-
-        #My Rating: Working!
         rating = row.find(class_='field rating').find('div').text.strip()
-        #print(rating)
 
         #Shelves: Needs to be Checked
         shelves = row.find(class_='field shelves').find('div').find('a').text.strip()
-        #print(shelves)
 
-        #Read Count: Working!
         read_count = row.find(class_='field read_count').find('div').text.strip()
-        #print(read_count)
-
-        #Date Started: Working!
         date_started = row.find(class_='field date_started').find('div').find('span').text.strip()
-        #print(date_started)
-
-        #Date Read: Working!
         date_read = row.find(class_='field date_read').find('div').find('span').text.strip()
-        #print(date_read)
-
-        #Date Added: Working!
         date_added = row.find(class_='field date_added').find('div').find('span').text.strip()
-        #print(date_added)
 
+        #adding to list
         row_list = []
         row_list.append(title)
         row_list.append(author)
@@ -139,7 +96,6 @@ def scrape_goodreads_page(url, page_number):
 
         #Appending row data to the list of rows for a single page
         page_list.append(row_list)
-
     return page_list
 
 def combine_page_lists(library_list):
@@ -157,7 +113,6 @@ def combine_page_lists(library_list):
     list: flattened list
     '''
     flatten = itertools.chain.from_iterable
-
     return list(flatten(library_list))
 
 def convert_list_to_csv(one_big_list):
@@ -200,7 +155,7 @@ def convert_list_to_csv(one_big_list):
 if __name__ == "__main__":
 
     print(f"")
-    print(f"This program will take several minutes to complete:")
+    print(f"This program could take several minutes to complete:")
     print(f"")
 
     #Calling functions
@@ -209,7 +164,7 @@ if __name__ == "__main__":
 
     #Scrape all pages and add to a list:
     entire_library = []
-    num_of_pages_in_library = 24 #Assumes 30 books per page for now, need to figure out how to make the loop dynamic.
+    num_of_pages_in_library = 30 #Assumes 30 books per page for now, need to figure out how to make the loop dynamic.
 
     for i in range(num_of_pages_in_library):
         goodreads_page_data = scrape_goodreads_page(GOODREADS_URL, page_number=i)
