@@ -45,3 +45,8 @@ Libraries/Modules
 2. Open GoodReads_Parser.py and replace the GOODREADS_URL with the link from your account (You can use the link from the My Books section of the site)
 3. Run the parser. This produces a CSV file with your history.
 4. Open GoodReads_Analysis.ipynb and run all cells.
+
+### Need to Work on
+Several issues need attention in the GoodReads_Parser.py file:
+- [line 6] The GoodReads link that needs replacing for every new user is somewhat confusing. There is probably a better way to deal with the source page. 
+- [line 167] The variable num_of_pages_in_library is currently set to 30, but it would be better if it could detect the number of pages and generate a CSV that doesn't create duplicates
